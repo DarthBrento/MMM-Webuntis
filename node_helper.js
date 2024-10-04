@@ -76,7 +76,7 @@ module.exports = NodeHelper.create({
 			})
 			.then(timetable => {
 				lessons = this.timetableToLessons(startTimes, timetable);
-				this.sendSocketNotification("GOT_DATA", {title: studentData.title, lessons: lessons});
+				this.sendSocketNotification("GOT_DATA", {title: studentData.title, lessons: lessons, id: identifier});
 			})
 			.catch(error => {
 				console.log("ERROR for " + studentData.title + ": " + error.toString());
