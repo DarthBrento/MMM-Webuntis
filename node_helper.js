@@ -16,10 +16,10 @@ module.exports = NodeHelper.create({
 			for (let i in this.config.students) {
 				var student = this.config.students[i];
 				if (student.username) {
-					this.fetchLessonsLogin(student, this.config.days);
+					this.fetchLessonsLogin(student, this.config.days, this.config.id);
 				}
 				else if (student.class) {
-					this.fetchLessonsAnonymous(student, this.config.days);
+					this.fetchLessonsAnonymous(student, this.config.days, this.config.id);
 				}
 				else {
 					console.log("Error: Student '" + student.title + "' has an configuration error!");
@@ -28,7 +28,7 @@ module.exports = NodeHelper.create({
 		}
 	},
 
-	fetchLessonsLogin: function(studentData, days) {
+	fetchLessonsLogin: function(studentData, days, identifier) {
 
 		const untis = new WebUntis(
 			studentData.school,
@@ -93,7 +93,7 @@ module.exports = NodeHelper.create({
 
 		untis.logout();
 	},
-	fetchLessonsAnonymous: function(studentData, days) {
+	fetchLessonsAnonymous: function(studentData, days, identifier) {
 
 		const untis = new WebUntis.WebUntisAnonymousAuth(
 			studentData.school,
@@ -148,7 +148,7 @@ module.exports = NodeHelper.create({
 			})
 			.then(timetable => {
 				lessons = this.timetableToLessons(startTimes, timetable);
-				this.sendSocketNotification("GOT_DATA", {title: studentData.title, lessons: lessons});
+				this.sendSocketNotification("GOT_DATA", {title: studentData.title, lessons: lessons, id: identifier});
 			})
 			.catch(error => {
 				console.log("ERROR for " + studentData.title + ": " + error.toString());
