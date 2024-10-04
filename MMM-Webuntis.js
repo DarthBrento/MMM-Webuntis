@@ -35,7 +35,7 @@ Module.register("MMM-Webuntis", {
 
 	start: function (){
 		this.lessonsByStudent = [];
-		this.config.identifier = this.identifier;
+		this.config.id = this.identifier;
 		this.sendSocketNotification("FETCH_DATA", this.config);
 	},
 
@@ -214,6 +214,11 @@ Module.register("MMM-Webuntis", {
 	},
 
 	socketNotificationReceived: function(notification, payload) {
+		// filter on identifier
+		if (this.identifier !== payload.id) {
+			return;
+		}
+
 		if (notification === "GOT_DATA") {
 			if (payload.lessons) {
 				this.lessonsByStudent[payload.title] = payload.lessons;
