@@ -7,6 +7,11 @@ module.exports = NodeHelper.create({
 
 	socketNotificationReceived: function(notification, payload) {
 
+		// filter on identifier
+		if (this.identifier !== payload.id) {
+			return;
+		}
+
 		if (notification === "FETCH_DATA") {
 
 			//Copy and save config
