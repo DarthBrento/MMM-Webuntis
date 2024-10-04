@@ -35,6 +35,7 @@ Module.register("MMM-Webuntis", {
 
 	start: function (){
 		this.lessonsByStudent = [];
+		this.config.identifier = this.identifier;
 		this.sendSocketNotification("FETCH_DATA", this.config);
 	},
 
